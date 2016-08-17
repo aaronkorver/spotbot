@@ -23,7 +23,7 @@ module.exports = (robot) ->
           return
         data = JSON.parse(body)
         if data.length <= 0
-          msg.send "Unable to get a fortune cookie, perhapas mercury is in retrograde?"
+          msg.send "Unable to get a fortune cookie, perhaps mercury is in retrograde?"
           return
         data = data[0]
         fullmessage = "#{data.fortune.message} \n"
