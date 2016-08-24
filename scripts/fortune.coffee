@@ -40,7 +40,9 @@ quotes =
 ]
 
 module.exports = (robot) ->
-	robot.respond /fortune/i, (msg) ->
+	robot.respond /fortune(.*)/i, (msg) ->
+		if msg.match[1] == "cookie me"
+			return
 		quote = quotes[randomIndex(quotes)]
 		createMeme(msg, templates[randomIndex(templates)], quote[0], quote[1])
 
