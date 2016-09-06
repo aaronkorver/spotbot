@@ -1,5 +1,5 @@
 # Description:
-#   None
+#   Allows users to find 'yummy' lunch plans at the TGT cafes
 #
 # Dependencies:
 #   None
@@ -8,10 +8,9 @@
 #   None
 #
 # Commands:
-#   hubot menu CC - Gives url for CC lunch menu
-#   hubot menu TNC - Gives url for TNC lunch menu
-#   hubot menu TPS - Gives url for TPS lunch menu
-#
+#   hubot menu <CC/TNC/TPS> - Gives url for menu at specified cafe
+#   hubot menu <CC|TNC|TPS> <lunch|breakfast> - Gives url for menu at specified cafe & prints out food options for bfast or lunch
+#   hubot menu <CC|TNC|TPS> <lunch|breakfast> <query> - Gives url for menu at specified cafe & prints out food options for bfast or lunch that match the query specified
 # Author:
 #   Jordan McGowan
 
@@ -53,28 +52,31 @@ module.exports = (robot) ->
 
     if location == "cc"
       cafeNum = "273"
-      msg.send "CC Menu: " + ccMenu
       if !foodItem? && bfastOrLunch?
         getAllCafeInfo msg, cafeNum, bfastOrLunch, foodItem
       else if foodItem? && bfastOrLunch?
         getSpecificCafeInfo msg, cafeNum, bfastOrLunch, foodItem
+      else
+        msg.send "CC Menu: " + ccMenu
 
 
     if location == "tnc"
       cafeNum = "274"
-      msg.send "TNC Menu " + tncMenu
       if !foodItem? && bfastOrLunch?
         getAllCafeInfo msg, cafeNum, bfastOrLunch, foodItem
       else if foodItem? && bfastOrLunch?
         getSpecificCafeInfo msg, cafeNum, bfastOrLunch, foodItem
+      else
+        msg.send "TNC Menu " + tncMenu
 
     if location == "tps"
       cafeNum = "272"
-      msg.send "TPS Menu " + tpsMenu
       if !foodItem? && bfastOrLunch?
         getAllCafeInfo msg, cafeNum, bfastOrLunch, foodItem
       else if foodItem? && bfastOrLunch?
         getSpecificCafeInfo msg, cafeNum, bfastOrLunch, foodItem
+      else
+        msg.send "TPS Menu " + tpsMenu
 
   #returns all items avail at the cafe
   getAllCafeInfo = (msg, cafeNum, bfastOrLunch, itemToEat) ->
@@ -150,6 +152,7 @@ module.exports = (robot) ->
     textToSend = ""
 
   sendQueryInfoMessage = (bfastOrLunchInfo, numStations, cafeInfo, itemToEat, msg) ->
+    foundItem = false
     #Step thru all of the stations at the cafe
     for j in [0...numStations]
       stationInfo = bfastOrLunchInfo[j]
@@ -170,6 +173,7 @@ module.exports = (robot) ->
         locationOfItemInStationItem = itemName.indexOf itemToEat, 0
         #special case
         if locationOfItemInStationItem != -1
+          foundItem = true
           if count == 0
             textToSend = textToSend + "\n\nThere are matches at the " + stationName.toUpperCase() + " station"
             count = 1
@@ -178,5 +182,6 @@ module.exports = (robot) ->
           if itemCals == ""
             textToSend = textToSend + "\n***Matched item: " + itemName + " for " + itemPrice
       count = 0
+    #add a conditional here
     msg.send textToSend
     textToSend = ""
