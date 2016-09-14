@@ -13,7 +13,7 @@
 # Author:
 #   arudge
 
-threshold = 0.75
+threshold = 0
 
 wtf = [
   "http://i.imgur.com/P2vkwAS.gif"
