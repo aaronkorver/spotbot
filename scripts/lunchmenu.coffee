@@ -8,7 +8,7 @@
 #   None
 #
 # Commands:
-#   hubot menu <CC/TNC/TPS> - Gives url for menu at specified cafe
+#   hubot menu <CC|TNC|TPS> - Gives url for menu at specified cafe
 #   hubot menu <CC|TNC|TPS> <lunch|breakfast> - Gives url for menu at specified cafe & prints out food options for bfast or lunch
 #   hubot menu <CC|TNC|TPS> <lunch|breakfast> <query> - Gives url for menu at specified cafe & prints out food options for bfast or lunch that match the query specified
 # Author:
@@ -17,6 +17,9 @@
 ccMenu = "http://target.cafebonappetit.com/cafe/bullseye-cafe/" #273
 tncMenu = "http://target.cafebonappetit.com/cafe/traders-point/" #274
 tpsMenu = "http://target.cafebonappetit.com/cafe/cafe-target/" #272
+stationsToIgnore = ['SALAD BAR', 'DELI', 'COFFEE BAR', 'BEVERAGES', 'AQUA FRESCA',
+'GRILL CONDIMENTS', 'GRAINS BAR', 'DELI BAR LUNCH', 'SALAD BAR LUNCH', 'FRUIT AND YOGURT BAR',
+'BREAKFAST COFFEE', 'FARM PRODUCE AND DELI CAFE', 'CONDIMENT GRILL']
 
 cityCenterPattern = /C(ity)?\s?C(enter)?/i
 targetNorthCampusPattern = /\b(T(arget)?\s?N(orth)?\s?C(ampus)?)|BFE\b/i
@@ -127,6 +130,8 @@ module.exports = (robot) ->
     for j in [0...numStations]
       stationInfo = bfastOrLunchInfo[j]
       stationName = bfastOrLunchInfo[j].label.toUpperCase()
+      if stationName in stationsToIgnore
+        break
       numItemsAtStation = stationInfo.items.length
       textToSend = textToSend + "\nFood available at " + stationName + " station"
       #Step thru all of the items at the station
