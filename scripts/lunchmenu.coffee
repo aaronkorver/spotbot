@@ -9,8 +9,8 @@
 #
 # Commands:
 #   hubot menu <CC|TNC|TPS> - Gives url for menu at specified cafe
-#   hubot menu <CC|TNC|TPS> <lunch|breakfast> - Gives url for menu at specified cafe & prints out food options for bfast or lunch
-#   hubot menu <CC|TNC|TPS> <lunch|breakfast> <query> - Gives url for menu at specified cafe & prints out food options for bfast or lunch that match the query specified
+#   hubot menu <CC|TNC|TPS> <lunch|breakfast> - Displays food options for bfast or lunch
+#   hubot menu <CC|TNC|TPS> <lunch|breakfast> <query> - Displays food options for bfast or lunch that match the specified query
 # Author:
 #   Jordan McGowan
 
@@ -20,6 +20,9 @@ tpsMenu = "http://target.cafebonappetit.com/cafe/cafe-target/" #272
 stationsToIgnore = ['SALAD BAR', 'DELI', 'COFFEE BAR', 'BEVERAGES', 'AQUA FRESCA',
 'GRILL CONDIMENTS', 'GRAINS BAR', 'DELI BAR LUNCH', 'SALAD BAR LUNCH', 'FRUIT AND YOGURT BAR',
 'BREAKFAST COFFEE', 'FARM PRODUCE AND DELI CAFE', 'CONDIMENT GRILL']
+stationsToLimit = ['COMFORT ZONE', 'WRAP AND PANINI', 'TOAST AND BAGEL BAR',
+'BREAKFAST GRILLED SANDWICHES', 'BREAKFAST', 'HOT CEREAL', 'BREAKFAST BAR',
+'BREAKFAST GRILL', 'GRAB AND GO SALAD', 'GRILL']
 
 cityCenterPattern = /C(ity)?\s?C(enter)?/i
 targetNorthCampusPattern = /\b(T(arget)?\s?N(orth)?\s?C(ampus)?)|BFE\b/i
@@ -130,9 +133,13 @@ module.exports = (robot) ->
     for j in [0...numStations]
       stationInfo = bfastOrLunchInfo[j]
       stationName = bfastOrLunchInfo[j].label.toUpperCase()
+      numItemsAtStation = stationInfo.items.length
       if stationName in stationsToIgnore
         break
-      numItemsAtStation = stationInfo.items.length
+      #Dont spam for some of the stations with lots of things
+      if stationName in stationsToLimit
+        if numItemsAtStation > 5
+          numItemsAtStation = 5
       textToSend = textToSend + "\nFood available at " + stationName + " station"
       #Step thru all of the items at the station
       for k in [0...numItemsAtStation]
