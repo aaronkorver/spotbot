@@ -34,6 +34,7 @@ targetPlazaSouthPattern = /\bT(arget)?\s?P(laza)?\s?S(outh)?\b/i
 textToSend = ""
 cafeInfo = ""
 count = 0
+cafeNum = ""
 
 
 module.exports = (robot) ->
@@ -151,15 +152,22 @@ module.exports = (robot) ->
         if itemCals != ""
           if k == numItemsAtStation - 1
             #special case to add new line char to end of a section
-            textToSend = textToSend + "\n" + "---" + itemName + " for " + itemPrice + " with " + itemCals + " calories\n"
+            textToSend = textToSend + "\n---" + itemName + " for " + itemPrice + " with " + itemCals + " calories\n"
           else
-            textToSend = textToSend + "\n" + "---" + itemName + " for " + itemPrice + " with " + itemCals + " calories"
+            textToSend = textToSend + "\n---" + itemName + " for " + itemPrice + " with " + itemCals + " calories"
         if itemCals == ""
           #special case to add new line char to end of a section
           if k == numItemsAtStation - 1
-            textToSend = textToSend + "\n" + "---" + itemName + " for " + itemPrice + "\n"
+            textToSend = textToSend + "\n---" + itemName + " for " + itemPrice + "\n"
           else
-            textToSend = textToSend + "\n" + "---" + itemName + " for " + itemPrice
+            textToSend = textToSend + "\n---" + itemName + " for " + itemPrice
+    textToSend = textToSend + "\nCheck out the whole cafe menu here: "
+    if cafeNum == "272"
+      textToSend = textToSend + tpsMenu
+    else if cafeNum == "273"
+      textToSend = textToSend + ccMenu
+    else if cafeNum == "274"
+      textToSend = textToSend + tncMenu
     msg.send textToSend
     textToSend = ""
 
@@ -187,13 +195,21 @@ module.exports = (robot) ->
         if locationOfItemInStationItem != -1
           foundItem = true
           if count == 0
-            textToSend = textToSend + "\n\nThere are matches at the " + stationName.toUpperCase() + " station"
+            textToSend = textToSend + "\nThere are matches at the " + stationName.toUpperCase() + " station"
             count = 1
           if itemCals != ""
             textToSend = textToSend + "\n***Matched item: " + itemName + " for " + itemPrice + " with " + itemCals + " calories"
           if itemCals == ""
             textToSend = textToSend + "\n***Matched item: " + itemName + " for " + itemPrice
       count = 0
+    if !foundItem
+      textToSend = textToSend + "There are no matches for that query, maybe you should check out the cafe menu here: "
+      if cafeNum == "272"
+        textToSend = textToSend + tpsMenu
+      else if cafeNum == "273"
+        textToSend = textToSend + ccMenu
+      else if cafeNum == "274"
+        textToSend = textToSend + tncMenu
     #add a conditional here
     msg.send textToSend
     textToSend = ""
