@@ -53,3 +53,6 @@ module.exports = (robot) ->
   # An easter egg
   robot.hear /^technically/i, (msg) ->
     msg.send 'http://imgs.xkcd.com/comics/technically.png'
+
+  robot.hear /according to quantum mechanics/i, (msg) ->
+    msg.send 'http://imgs.xkcd.com/comics/quantum_mechanics.png'
