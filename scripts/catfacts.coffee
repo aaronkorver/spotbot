@@ -115,7 +115,7 @@ facts = [
   "Never give your cat aspirin unless specifically prescribed by your veterinarian; it can be fatal. Never ever give Tylenol to a cat. And be sure to keep anti-freeze away from all animals - it's sweet and enticing, but deadly poison."
   "The mountain lion and the cheetah share an ancestor."
   "An adult cat has 30 teeth, 16 on the top and 14 on the bottom."
-  "In the 1960's, the CIA trained cats to spy on the Soviets. The project was called Acoustic Kitty" //https://en.wikipedia.org/wiki/Acoustic_Kitty
+  "In the 1960's, the CIA trained cats to spy on the Soviets. The project was called Acoustic Kitty" #https://en.wikipedia.org/wiki/Acoustic_Kitty
 ]
 
 module.exports = (robot) ->
