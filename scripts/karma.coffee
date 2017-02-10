@@ -21,5 +21,5 @@ module.exports = (robot) ->
     if random < roomThreshold
       minuses = Array(message.match[2].length+1).join "-"
 
-      message.send "@#{message.mention_name}#{minuses}"
+      message.reply "#{minuses}"
       message.send "#{message.match[1]}#{minuses}"
