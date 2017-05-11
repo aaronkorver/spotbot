@@ -17,7 +17,6 @@ threshold = 0
 
 wtf = [
   "http://i.imgur.com/P2vkwAS.gif"
-  "http://media.giphy.com/media/xw1vTI3HYbB6M/giphy.gif"
   "http://media.giphy.com/media/jwKE2r7zbiL9m/giphy.gif"
   "http://media.giphy.com/media/NLbivNFUwhoTm/giphy.gif"
   "http://media2.giphy.com/media/HlFDE0DEp9Gq4/giphy.gif"
