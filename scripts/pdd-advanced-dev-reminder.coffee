@@ -17,7 +17,7 @@
 TIMEZONE = "America/Chicago"
 Q_AND_A_CHECK = '0 0 8 * * 6' # s,m,h,d(0-31),m(0-11),dow
 TIMESHEET_REMINDER = '0 47 8 * * 5' # S=1,M=2,T=3,W=4,R=5,F=6,S=7
-ROOM = "PD+D Connected Products"
+ROOM = "pd+d_connected_products"
 
 cronJob = require('cron').CronJob
 
