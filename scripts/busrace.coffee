@@ -44,7 +44,6 @@ module.exports = (robot) ->
       , 3000 + 200 * (apos+bpos)
       while bpos < 10
         bpos +=1
-        bpos +=1
         setTimeout ->
           message.send "s/(strugglebus)b/----- (strugglebus)b"
         , 3000 + 200 * (apos+bpos)
@@ -54,7 +53,6 @@ module.exports = (robot) ->
       , 3000 + 200 * (apos+bpos)
       while apos < 10
         apos +=1
-        bpos +=1
         setTimeout ->
           message.send "s/(strugglebus)a/----- (strugglebus)a"
         , 3000 + 200 * (apos+bpos)
