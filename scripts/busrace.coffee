@@ -152,6 +152,6 @@ module.exports = (robot) ->
             si = st
             for ii in [0 .. Math.min(amt-1,4)]
               si += st
-            robot.messageRoom '4123597', "@"+e.user + " " + si
+            robot.messageRoom("171096_bus_race_karma_spam@conf.hipchat.com", "@"+e.user + " " + si)
             amt -= 5
       , 1000
