@@ -9,7 +9,7 @@
 #
 # Commands:
 #  hubot bus race start
-#  hubot bus race bet <0-100> karma on race <race id> on <(cartwheel)|(strugglebus)|(nyancat)>
+#  hubot bet <0-100> <(cartwheel)|(strugglebus)|(nyancat)> <race id>
 #  hubot bus race stats
 
 #
@@ -36,12 +36,12 @@ module.exports = (robot) ->
     strmsg += "(nyancat) has won " + n_wins + "/" + races + " times."
     message.send strmsg
 
-  robot.respond /bus race bet (.*) karma on race (.*) on (.*)/i, (message) ->
+  robot.respond /bet (.*) (.*) (.*)/i, (message) ->
     amount = message.match[1].strip()
     if amount < 0 or amount > 100
       amount = 100
-    raceid = message.match[2].strip()
-    emoji = message.match[3].strip()
+    raceid = message.match[3].strip()
+    emoji = message.match[2].strip()
     user = message.message.user.name
 
     betobj = {user, emoji, amount}
@@ -152,6 +152,6 @@ module.exports = (robot) ->
             si = st
             for ii in [0 .. Math.min(amt-1,4)]
               si += st
-            robot.messageRoom "Bus Race Karma Spam", "@"+e.user + " " + si
+            robot.messageRoom '4123597', "@"+e.user + " " + si
             amt -= 5
       , 1000
