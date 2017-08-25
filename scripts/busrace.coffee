@@ -8,9 +8,9 @@
 #  None
 #
 # Commands:
-#  spotbot bus race start
-#  spotbot bus race bet <0-100> karma on race <race id> on <(cartwheel)|(strugglebus)|(nyancat)>
-#  spotbot bus race stats
+#  hubot bus race start
+#  hubot bus race bet <0-100> karma on race <race id> on <(cartwheel)|(strugglebus)|(nyancat)>
+#  hubot bus race stats
 
 #
 # Author:
