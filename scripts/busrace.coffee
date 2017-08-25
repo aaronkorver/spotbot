@@ -42,7 +42,7 @@ module.exports = (robot) ->
       amount = 100
     raceid = message.match[3].strip()
     emoji = message.match[2].strip()
-    user = message.message.user.name
+    user = message.message.user.mention_name
 
     betobj = {user, emoji, amount}
 
