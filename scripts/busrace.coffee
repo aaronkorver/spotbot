@@ -11,6 +11,7 @@
 #  bus race start
 #  bus race bet <0-100> karma on race <race id> on <(cartwheel)|(strugglebus)|(nyancat)>
 #  bus race stats
+
 #
 # Author:
 #  Edward Connolly
@@ -79,7 +80,6 @@ module.exports = (robot) ->
     initstr += "ON YOUR MARK!"
 
     message.send initstr
-
     setTimeout ->
       message.send "s/ON YOUR MARK!/ON YOUR MARK! -- GET SET!"
     , 1000

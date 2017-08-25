@@ -15,4 +15,4 @@
 
 module.exports = (robot) ->
     robot.respond /freedom bomb/i, (msg) ->
-        msg.send("https://s3.amazonaws.com/uploads.hipchat.com/171096/1551645/Hn5n5VbJo4fRbQx/freedom.gif") for num in [1..7]
+        msg.send("https://s3.amazonaws.com/uploads.hipchat.com/171096/4162754/o2FpuSfLBGZShgp/freedom_bomb.gif") for num in [1..7]

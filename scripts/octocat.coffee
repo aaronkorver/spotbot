@@ -21,6 +21,8 @@ module.exports = (robot) ->
     show_octocats msg, 1
   robot.respond /octocat\s+(?:bomb)\s*(?:me)?\s*(\d+)?/i, (msg) ->
     count = msg.match[1] || 5
+    if count > 20
+      count = 20
     show_octocats msg, count
 show_octocats = (msg, count) ->
   msg.http('http://feeds.feedburner.com/Octocats')

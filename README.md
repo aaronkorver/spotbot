@@ -77,20 +77,11 @@ the thing.
 
 ### Writing ES6 (ES2015) Scripts
 
-If you'd like to write your scripts in ES6, this is quite straight forward.
+If you'd like to write your scripts in ES2015, this is quite straight forward.
 
-Place your scripts under the `./es2015-scripts` directory.
-
-Once you have created your script and tweaked it to your liking. You are going to need to run a build step.
-
-```shell
-$ npm run build
-```
-
-This will use babel to transpile your ES6 code into ES5 code, so that hubot can
-read it. (**Note:** If you do not run this, your scripts will not run).
-
-Thats it. You don't have to use CoffeeScript anymore! Woot 😄!
+Place your scripts under the `./es2015-scripts` directory. Thats it. 
+You don't have to use CoffeeScript anymore! Woot 😄! Hubot automatically transpiles 
+your ES2015 code to ES5 and places it into the `./scripts` directory at runtime.
 
 ### external-scripts
 
