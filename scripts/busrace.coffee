@@ -29,13 +29,13 @@ module.exports = (robot) ->
     b_wins = robot.brain.get("bus_race_strugglebus_wins") || 0
     n_wins = robot.brain.get("bus_race_nyancat_wins") || 0
 
-  robot.hear /bus race stats/i, (message) ->
+  robot.respond /bus race stats/i, (message) ->
     strmsg = "(cartwheel) has won " + c_wins + "/" + races + " times.\n"
     strmsg += "(strugglebus) has won " + b_wins + "/" + races + " times.\n"
     strmsg += "(nyancat) has won " + n_wins + "/" + races + " times."
     message.send strmsg
 
-  robot.hear /bus race bet (.*) karma on race (.*) on (.*)/i, (message) ->
+  robot.respond /bus race bet (.*) karma on race (.*) on (.*)/i, (message) ->
     amount = message.match[1].strip()
     if amount < 0 or amount > 100
       amount = 100
@@ -55,7 +55,7 @@ module.exports = (robot) ->
         bets.push betobj
         robot.brain.set("bus_race_bets_"+raceid,bets)
 
-  robot.hear /bus race start/i, (message) ->
+  robot.respond /bus race start/i, (message) ->
     raceid = Math.floor(new Date().getTime() / 1000).toString(16).toUpperCase()
     message.send "BETTING HAS OPENED FOR RACE : "+raceid+"\nBETTING WILL CONCLUDE IN 30 SECONDS"
     setTimeout ->
