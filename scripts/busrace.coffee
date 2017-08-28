@@ -9,7 +9,7 @@
 #
 # Commands:
 #  hubot bus race start
-#  hubot bet <0-100> <(cartwheel)|(strugglebus)|(nyancat)> <race id>
+#  hubot bet <0-25> <(cartwheel)|(strugglebus)|(nyancat)> <race id>
 #  hubot bus race stats
 
 #
@@ -38,8 +38,8 @@ module.exports = (robot) ->
 
   robot.respond /bet (.*) (.*) (.*)/i, (message) ->
     amount = message.match[1].strip()
-    if amount < 0 or amount > 100
-      amount = 100
+    if amount < 0 or amount > 25
+      amount = 25
     raceid = message.match[3].strip()
     emoji = message.match[2].strip()
     user = message.message.user.mention_name
@@ -58,10 +58,10 @@ module.exports = (robot) ->
 
   robot.respond /bus race start/i, (message) ->
     raceid = Math.floor(new Date().getTime() / 1000).toString(16).toUpperCase()
-    message.send "BETTING HAS OPENED FOR RACE : "+raceid+"\nBETTING WILL CONCLUDE IN 30 SECONDS"
+    message.send "BETTING HAS OPENED FOR RACE -- "+raceid+" -- BETTING CONCLUDES IN 40 SECONDS"
     setTimeout ->
       race(raceid, message)
-    , 30000
+    , 40000
     #raceids = robot.brain.get("bus_race_raceids") || []
     raceids.push(raceid)
     robot.brain.set("bus_race_raceids", raceids)
@@ -76,7 +76,6 @@ module.exports = (robot) ->
     initstr += "|(strugglebus)\n"
     initstr += "|(cartwheel)\n"
     initstr += "|(nyancat)\n"
-    initstr += "|----- ----- ----- ----- ----- ----- ----- ----- ----- ----- -----|\n"
     initstr += "ON YOUR MARK!"
 
     message.send initstr
@@ -143,6 +142,8 @@ module.exports = (robot) ->
 
       bets = robot.brain.get("bus_race_bets_"+raceid) || []
       setTimeout ->
+        cntr = 0
+        karlist = []
         for e in bets
           st = "-"
           if e.emoji == winner
@@ -152,6 +153,11 @@ module.exports = (robot) ->
             si = st
             for ii in [0 .. Math.min(amt-1,4)]
               si += st
-            robot.messageRoom("171096_bus_race_karma_spam@conf.hipchat.com", "@"+e.user + " " + si)
+            karlist.push(String("@"+e.user + " " + si))
             amt -= 5
+        for e in karlist
+          setTimeout ->
+            robot.messageRoom("171096_bus_race_karma_spam@conf.hipchat.com", karlist.pop())
+          , 200 * cntr
+          cntr += 1
       , 1000
