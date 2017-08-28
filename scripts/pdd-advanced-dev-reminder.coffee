@@ -17,7 +17,7 @@
 TIMEZONE = "America/Chicago"
 Q_AND_A_CHECK = '0 0 8 * * 6' # s,m,h,d(0-31),m(0-11),dow
 TIMESHEET_REMINDER = '0 47 8 * * 5' # S=1,M=2,T=3,W=4,R=5,F=6,S=7
-TEST_CRON  = '0 * * * * 2' # S=1,M=2,T=3,W=4,R=5,F=6,S=7 testing locally Monday was '2', should go off at the top of every minute on Mondays
+TEST_CRON  = '0 * * * * *' # S=1,M=2,T=3,W=4,R=5,F=6,S=7 testing locally Monday was '2', should go off at the top of every minute on Mondays
 ROOM = "pd+d_connected_products"
 TEST_PUBLIC_ROOM = "spotbottest14public"
 TEST_PRIVATE_ROOM = "spotbottest14"
