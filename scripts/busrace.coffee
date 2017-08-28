@@ -9,14 +9,14 @@
 #
 # Commands:
 #  hubot bus race start
-#  hubot bet <0-25> <(cartwheel)|(strugglebus)|(nyancat)> <race id>
+#  hubot bet <0-25> <(cartwheel)|(strugglebus)|(nyancat)>
 #  hubot bus race stats
-
 #
 # Author:
 #  Edward Connolly
 
 raceids = []
+raceids_running = []
 races = 0
 c_wins = 0
 b_wins = 0
@@ -25,6 +25,7 @@ n_wins = 0
 module.exports = (robot) ->
   robot.brain.on 'loaded', =>
     raceids = robot.brain.get("bus_race_raceids") || []
+    raceids_running = robot.brain.get("bus_race_raceids_running") || []
     races = robot.brain.get("bus_race_races") || 0
     c_wins = robot.brain.get("bus_race_cartwheel_wins") || 0
     b_wins = robot.brain.get("bus_race_strugglebus_wins") || 0
@@ -36,11 +37,12 @@ module.exports = (robot) ->
     strmsg += "(nyancat) has won " + n_wins + "/" + races + " times."
     message.send strmsg
 
-  robot.respond /bet (.*) (.*) (.*)/i, (message) ->
+  robot.respond /bet (.*) (.*)/i, (message) ->
     amount = message.match[1].strip()
     if amount < 0 or amount > 25
       amount = 25
-    raceid = message.match[3].strip()
+    raceid = message.message.room
+
     emoji = message.match[2].strip()
     user = message.message.user.mention_name
 
@@ -51,20 +53,26 @@ module.exports = (robot) ->
     if raceids.includes(raceid)
       for e in bets
         if e.user == user
+          bets[bets.indexOf(e)] = betobj
+          robot.brain.set("bus_race_bets_"+raceid,bets)
           cont = false
       if cont == true
         bets.push betobj
         robot.brain.set("bus_race_bets_"+raceid,bets)
 
   robot.respond /bus race start/i, (message) ->
-    raceid = Math.floor(new Date().getTime() / 1000).toString(16).toUpperCase()
-    message.send "BETTING HAS OPENED FOR RACE -- "+raceid+" -- BETTING CONCLUDES IN 40 SECONDS"
-    setTimeout ->
-      race(raceid, message)
-    , 40000
-    #raceids = robot.brain.get("bus_race_raceids") || []
-    raceids.push(raceid)
-    robot.brain.set("bus_race_raceids", raceids)
+    raceid = message.message.room #Math.floor(new Date().getTime() / 1000).toString(16).toUpperCase()
+    if raceid !in raceids_running
+      message.send "BETTING HAS OPENED FOR THE RACE -- BETTING CONCLUDES IN 40 SECONDS"
+      setTimeout ->
+        race(raceid, message)
+      , 40000
+      #raceids = robot.brain.get("bus_race_raceids") || []
+      raceids.push(raceid)
+      robot.brain.set("bus_race_raceids", raceids)
+      robot.brain.set("bus_race_raceids_running", raceids)
+      robot.brain.set("bus_race_bets_"+raceid,[])
+
 
   race = (raceid, message) ->
     #races = robot.brain.get("bus_race_raceids") || []
@@ -72,7 +80,7 @@ module.exports = (robot) ->
     robot.brain.set("bus_race_raceids", raceids)
 
     message.send "BETTING HAS CONCLUDED -- STARTING RACE "+raceid
-    initstr  = "|----- ----- ----- ----- ----- ----- ----- ----- ----- ----- -----|\n"
+    initstr  = "|----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- -----|\n"
     initstr += "|(strugglebus)\n"
     initstr += "|(cartwheel)\n"
     initstr += "|(nyancat)\n"
@@ -89,55 +97,57 @@ module.exports = (robot) ->
     apos = 0
     bpos = 0
     cpos = 0
-    while apos < 11 and bpos < 11 and cpos < 11
+    while apos < 22 and bpos < 22 and cpos < 22
       random = Math.random()
 
       if random >= .666
         apos +=1
         setTimeout ->
           message.send "s/(strugglebus)/----- (strugglebus)"
-        , 3000 + 200 * (apos+bpos+cpos)
+        , 3000 + 100 * (apos+bpos+cpos)
 
       if random < .666 and random >= .333
         bpos +=1
         setTimeout ->
           message.send "s/(cartwheel)/----- (cartwheel)"
-        , 3000 + 200 * (apos+bpos+cpos)
+        , 3000 + 100 * (apos+bpos+cpos)
 
       if random < .333
         cpos +=1
         setTimeout ->
           message.send "s/(nyancat)/----- (nyancat)"
-        , 3000 + 200 * (apos+bpos+cpos)
+        , 3000 + 100 * (apos+bpos+cpos)
 
     setTimeout ->
       races += 1
       robot.brain.set("bus_race_races", races)
-      if apos == 11
+      if apos == 22
         message.send "s/(cartwheel)/(rip)"
         message.send "s/(nyancat)/(rip)"
         b_wins += 1
         robot.brain.set("bus_race_strugglebus_wins", b_wins)
         karmaspam(raceid, "(strugglebus)", b_wins)
 
-      if bpos == 11
+      if bpos == 22
         message.send "s/(strugglebus)/(rip)"
         message.send "s/(nyancat)/(rip)"
         c_wins += 1
         robot.brain.set("bus_race_cartwheel_wins", c_wins)
         karmaspam(raceid, "(cartwheel)", c_wins)
 
-      if cpos == 11
+      if cpos == 22
         message.send "s/(cartwheel)/(rip)"
         message.send "s/(strugglebus)/(rip)"
         n_wins += 1
         robot.brain.set("bus_race_nyancat_wins", n_wins)
         karmaspam(raceid, "(nyancat)", n_wins)
-    , 3000 + 200 * (apos+bpos+cpos+1)
+    , 3000 + 100 * (apos+bpos+cpos+1)
 
     karmaspam = (raceid, winner, numwin) ->
       #numwin = robot.brain.get("bus_race_"+winner.replace(")","").replace("(","")+"_wins")
       #numrac = robot.brain.get("bus_race_races")
+      raceids_running = raceids_running.filter (word) -> word isnt raceid
+      robot.brain.set("bus_race_raceids_running", raceids_running)
       message.send winner + " IS THE WINNER!\n"+winner+" now has "+numwin+" wins in "+races+" races!"
 
       bets = robot.brain.get("bus_race_bets_"+raceid) || []
@@ -153,7 +163,7 @@ module.exports = (robot) ->
             si = st
             for ii in [0 .. Math.min(amt-1,4)]
               si += st
-            karlist.push(String("@"+e.user + " " + si))
+            karlist.push(String("s/karma spam silent/@"+e.user + " " + si))
             amt -= 5
         for e in karlist
           setTimeout ->
