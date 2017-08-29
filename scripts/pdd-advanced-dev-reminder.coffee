@@ -30,7 +30,7 @@ cronJob = require('cron').CronJob
 # Day of Month: 1-31
 # Months: 0-11
 # Day of Week: 0-6
-
+console.log "PDD Script Started"
 
 module.exports = (robot) ->
   timesheet_reminder = new cronJob TIMESHEET_REMINDER,
@@ -57,6 +57,14 @@ module.exports = (robot) ->
   test2 = new cronJob TEST_CRON,
     ->
       robot.messageRoom TEST_PRIVATE_ROOM, "TEST TO SEE IF CRON WORKS in a private room"
+      console.log "private room cron job ran"
+    null # happens when the job stops
+    true # start true/false
+    TIMEZONE
+
+  test3 = new cronJob TEST_CRON,
+    ->
+      robot.messageRoom "1631711", "TEST TO SEE IF CRON WORKS in a public room with id 1631711"
     null # happens when the job stops
     true # start true/false
     TIMEZONE
