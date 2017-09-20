@@ -8,9 +8,9 @@
 #  None
 #
 # Commands:
-#  hubot bus race start
-#  hubot bet <0-25> <(cartwheel)|(strugglebus)|(nyancat)>
-#  hubot bus race stats
+#  hubot bus race start - start a bus race in the current room
+#  hubot bet <1-25> <(cartwheel)|(strugglebus)|(nyancat)> - bet between 1 and 25 karma on one of those emoji
+#  hubot bus race stats - view overall bus race results (all rooms)
 #
 # Author:
 #  Edward Connolly
@@ -43,7 +43,7 @@ module.exports = (robot) ->
       amount = 25
     raceid = message.message.room
 
-    emoji = message.match[2].strip()
+    emoji = message.match[2].trim().strip()
     user = message.message.user.mention_name
 
     betobj = {user, emoji, amount}
