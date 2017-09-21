@@ -9,7 +9,7 @@
 #
 # Commands:
 #  hubot bus race start - start a bus race in the current room
-#  hubot bet <1-25> <(cartwheel)|(strugglebus)|(nyancat)> - bet between 1 and 25 karma on one of those emoji
+#  hubot bet <1-50> <(cartwheel)|(strugglebus)|(nyancat)> - bet between 1 and 50 karma on one of those emoji
 #  hubot bus race stats - view overall bus race results (all rooms)
 #
 # Author:
@@ -37,10 +37,10 @@ module.exports = (robot) ->
     strmsg += "(nyancat) has won " + n_wins + "/" + races + " times."
     message.send strmsg
 
-  robot.respond /bet (.*) (.*)/i, (message) ->
+  robot.respond /bet (\d*) \((.*)\)\s*/i, (message) -> 
     amount = message.match[1].strip()
-    if amount < 0 or amount > 25
-      amount = 25
+    if amount < 0 or amount > 50
+      amount = 50
     raceid = message.message.room
 
     emoji = message.match[2].trim().strip()

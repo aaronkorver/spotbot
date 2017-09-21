@@ -9,7 +9,7 @@
 #
 # Commands:
 #  hubot maze start - starts a maze if one isn't started
-#  hubot maze redisplay - redraws the maze if something happens to spotbot
+#  hubot maze redraw - redraws the maze if something happens to spotbot
 #  hubot maze left - move left in the maze
 #  hubot maze right - move right in the maze
 #  hubot maze up - move up in the maze
