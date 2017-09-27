@@ -37,7 +37,7 @@ module.exports = (robot) ->
     strmsg += "(nyancat) has won " + n_wins + "/" + races + " times."
     message.send strmsg
 
-  robot.respond /bet (\d*) \((.*)\)\s*/i, (message) -> 
+  robot.respond /bet (\d*) (\(.*\))\s*/i, (message) -> 
     amount = message.match[1].strip()
     if amount < 0 or amount > 50
       amount = 50
