@@ -91,7 +91,7 @@ onReady = () ->
     .get() (err, response, body) ->
       rooms = @robot.brain.data.adminRooms || ['shell']
 
-      if response?.statusCode != 200
+      if response?.statusCode != 206
         newVersion = defaultVersion
       else
         newVersion = JSON.parse(body).pop()
