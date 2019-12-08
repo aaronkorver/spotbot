@@ -29,8 +29,6 @@ You can start spotbot locally by running:
 
     % bin/hubot
 
-Or simply run `npm start`
-
 You'll see some start up output and a prompt:
 
     [Sat Feb 28 2015 12:38:27 GMT+0000 (GMT)] INFO Using default redis on localhost:6379

@@ -1,1 +1,1 @@
-web: bin/hubot -a hipchat-reboot
+web: bin/hubot -a slack
